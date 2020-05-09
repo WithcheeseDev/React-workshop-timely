@@ -82,7 +82,9 @@ const TaskList = (props) => {
               <div className='col'>{task.date}</div>
               <div className='col'>{`${task.startedAt} - ${task.endedAt}`}</div>
               <div className=''>
-                <button className='btn btn-danger'>Remove</button>
+                <button className='btn btn-danger' onClick={() => props.onRemoveClicked(task.name)}>
+                  Remove
+                </button>
               </div>
             </div>
           )
@@ -120,12 +122,16 @@ class App extends React.Component {
   }
 
   onTaskChange = (event) => {
-    console.log(event.target.value)
     this.setState({ task: event.target.value })
   }
 
   onCategoryChange = (event) => {
     this.setState({ category: event.target.value })
+  }
+
+  onRemoveClicked = (taskName) => {
+    const newAllTasks = this.state.allTasks.filter((task) => task.name !== taskName)
+    this.setState({ allTasks: newAllTasks })
   }
 
   render() {
@@ -143,7 +149,7 @@ class App extends React.Component {
             onStartClicked={this.onStartClicked}
           />
           <NoTask />
-          <TaskList allTasks={this.state.allTasks} />
+          <TaskList allTasks={this.state.allTasks} onRemoveClicked={this.onRemoveClicked} />
         </div>
       </div>
     )
